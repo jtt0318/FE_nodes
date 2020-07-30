@@ -1,0 +1,43 @@
+防抖 // 事件被触发n秒后再执行回调，若n秒内被再次触发，则重新计时
+
+const debounce = function (fn, delay) {
+    let timer;
+    return function () {
+        let _this = this;
+        let args = arguments;
+        if (timer) {
+            clearTimeout(timer)
+        }
+        timer = setTimeout(function () {
+            fn.apply(_this, args)
+        }, delay);
+    }
+}
+
+// 测试用例
+const test = function () {
+  console.log('防抖')
+}
+$input.addEventListener('input',debounce(test,1000))
+
+节流 // 规定在一个单位时间内，只能触发一次函数
+
+const throttle = function(fn, delay) {
+    let flag = true;
+    return function() {
+        let _this = this;
+        let args = arguments;
+        if(!flag) return;
+        
+        flag = false;
+        setTimeout(function() {
+            fn.apply(_this,args);
+            flag = true;
+        }, delay);
+    }
+}
+// 测试用例
+const test = function () {
+  console.log('节流')
+}
+window.addEventListener('resize',throttle(test,1000))
